@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="cont_principal">
+      <div class="cont_centrar">
+        <div class="cont_todo_list_top">
+          <div class="cont_titulo_cont">
+            <h3>Books</h3>
+          </div>
+          <div class="cont_add_titulo_cont">
+            <a href="#e" onclick="add_new()"
+              ><i class="fa-solid fa-book"></i
+            ></a>
+          </div>
+
+          <!--   End cont_todo_list_top  -->
+        </div>
+        <div class="cont_crear_new">
+          <table class="table">
+            <tr>
+              <th>Book Category</th>
+              <th>Book Title</th>
+              <th>Book Year</th>
+              <th>Book Price</th>
+            </tr>
+            <tr>
+              <td>
+                <select name="" id="action_select">
+                  <option value="Fantasy">Fantasy</option>
+                  <option value="Sci-Fi">Sci-Fi</option>
+                  <option value="Mystery">Mystery</option>
+                  <option value="Thriller">Thriller</option>
+                  <option value="Romance">Romance</option>
+                  <option value="Westerns">Westerns</option>
+                </select>
+                <!-- End td 1 -->
+              </td>
+              <td>
+                <input type="text" class="input_title_desc" />
+
+                <!-- End td 2 -->
+              </td>
+              <td>
+                <select
+                  name=""
+                  class="input_description_title"
+                  id="date_select"
+                >
+                  <option value="TODAY">TODAY</option>
+                  <option value="TOMORROW">TOMORROW</option>
+                </select>
+
+                <!-- End td 3 -->
+              </td>
+            </tr>
+            <tr>
+              <th class="titl_description">Book Author</th>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <input type="text" class="input_description" required />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <button class="btn_add_fin" onclick="add_to_list()">ADD</button>
+              </td>
+            </tr>
+          </table>
+          <!--   End cont_crear_new  -->
+        </div>
+
+        <div class="cont_princ_lists">
+          <ul></ul>
+          <!--   End cont_todo_list_top  -->
+        </div>
+
+        <!--   End cont_central  -->
+      </div>
+    </div>
+  </body>
+  <script src="./script.js"></script>
+</html>
