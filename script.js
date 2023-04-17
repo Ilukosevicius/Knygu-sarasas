@@ -1,4 +1,4 @@
-var contador = 0,
+var contador = localStorage.length,
   select_opt = 0;
 
 function add_to_list() {
@@ -6,6 +6,25 @@ function add_to_list() {
     description = document.querySelector(".input_description").value,
     title = document.querySelector(".input_title_desc").value,
     date = document.getElementById("date_select").value;
+
+  let data = [];
+
+  function saveData() {
+    let newData = document.getElementById("input").value;
+    data.push(newData);
+    localStorage.setItem("myData", JSON.stringify(data));
+  }
+
+  function loadData() {
+    data = JSON.parse(localStorage.getItem("myData")) || [];
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+    for (let i = 0; i < data.length; i++) {
+      let item = document.createElement("li");
+      item.textContent = data[i];
+      list.appendChild(item);
+    }
+  }
 
   switch (action) {
     case "Fantasy":
@@ -48,8 +67,8 @@ function add_to_list() {
     select_opt +
     "," +
     contador +
-    ');" ><i class="fa-regular fa-trash-can"></i></a></li>   </ul>  </div>    </div>';
-
+    ');" ><i class="fa-regular fa-trash-can"></i></a></li>   </ul>  </div>    </div>' +
+    '<div class="col_md_4_list"><input type="text" class="input_price" placeholder="Price"></div>';
   var li = document.createElement("li");
   li.className = class_li[select_opt] + " li_num_" + contador;
 
@@ -64,9 +83,64 @@ function add_to_list() {
     document.querySelector(".li_num_" + contador).className =
       "list_dsp_true " + class_li[select_opt] + " li_num_" + contador;
     contador++;
+
+    // Store data in local storage
+    var data = {
+      action: action,
+      description: description,
+      title: title,
+      date: date,
+      select_opt: select_opt,
+    };
+    localStorage.setItem("data_" + contador, JSON.stringify(data));
   }, 200);
 }
 
+// Retrieve data from local storage and populate the list
+for (var i = 0; i < localStorage.length; i++) {
+  var key = localStorage.key(i);
+  if (key.indexOf("data_") === 0) {
+    var data = JSON.parse(localStorage.getItem(key));
+    // Use the data to populate the list
+    var class_li = [
+      "list_shopping list_dsp_none",
+      "list_work list_dsp_none",
+      "list_sport list_dsp_none",
+      "list_music list_dsp_none",
+    ];
+
+    var cont =
+      '<div class="col_md_1_list">    <p>' +
+      data.action +
+      '</p>    </div> <div class="col_md_2_list"> <h4>' +
+      data.title +
+      "</h4> <p>" +
+      data.description +
+      '</p> </div>    <div class="col_md_3_list"> <div class="cont_text_date"> <p>' +
+      data.date +
+      '</p>  </div>  <div class="cont_btns_options">    <ul>  <li><a href="#finish" onclick="finish_action(' +
+      data.select_opt +
+      "," +
+      contador +
+      ');" ><i class="fa-regular fa-trash-can"></i></a></li>   </ul>  </div>    </div>' +
+      '<div class="col_md_4_list"><input type="text" class="input_price" placeholder="Price"></div>';
+
+    var li = document.createElement("li");
+    li.className = class_li[data.select_opt] + " li_num_" + contador;
+    li.innerHTML = cont;
+    document.querySelectorAll(".cont_princ_lists > ul")[0].appendChild(li);
+
+    setTimeout(function () {
+      document.querySelector(".li_num_" + contador).style.display = "block";
+    }, 100);
+
+    setTimeout(function () {
+      document.querySelector(".li_num_" + contador).className =
+        "list_dsp_true " + class_li[data.select_opt] + " li_num_" + contador;
+      contador++;
+    }, 200);
+  }
+}
 function finish_action(num, num2) {
   var class_li = [
     "list_shopping list_dsp_true",
