@@ -1,3 +1,55 @@
+document.querySelector(".search_bar").addEventListener("input", searchItems);
+document.querySelector(".search_type").addEventListener("change", searchItems);
+
+function searchItems() {
+  var searchTerm = document.querySelector(".search_bar").value.toLowerCase();
+  var searchType = document.querySelector(".search_type").value;
+  var items = document.querySelectorAll(".cont_princ_lists > ul > li");
+
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    var category = item
+      .querySelector(".col_md_1_list > p")
+      .innerText.toLowerCase();
+    var price = parseFloat(item.querySelector(".price").innerText.substring(1));
+    var year = item.querySelector(".cont_text_date > p").innerText;
+    var title = item
+      .querySelector(".col_md_2_list > h4")
+      .innerText.toLowerCase();
+    // Assuming the author information is stored in the description
+    var author = item
+      .querySelector(".col_md_2_list > p")
+      .innerText.toLowerCase();
+
+    var displayItem = false;
+
+    switch (searchType) {
+      case "category":
+        displayItem = category.indexOf(searchTerm) !== -1;
+        break;
+      case "price":
+        if (searchTerm === "") {
+          displayItem = true;
+        } else {
+          var searchPrice = parseFloat(searchTerm);
+          displayItem = price === searchPrice;
+        }
+        break;
+      case "year":
+        displayItem = year.indexOf(searchTerm) !== -1;
+        break;
+      case "title":
+        displayItem = title.indexOf(searchTerm) !== -1;
+        break;
+      case "author":
+        displayItem = author.indexOf(searchTerm) !== -1;
+        break;
+    }
+
+    item.style.display = displayItem ? "block" : "none";
+  }
+}
+
 var contador = parseInt(localStorage.getItem("contador")) || 0;
 var select_opt = 0;
 
@@ -120,6 +172,32 @@ function add_to_list() {
   }, 200);
 }
 
+function createListItemContent(data) {
+  return (
+    '<div class="col_md_1_list"><p>' +
+    data.action +
+    "</p></div>" +
+    '<div class="col_md_2_list"><h4>' +
+    data.title +
+    "</h4><p>" +
+    data.description +
+    "</p></div>" +
+    '<div class="col_md_3_list"><div class="cont_text_date"><p>' +
+    data.date +
+    '</p></div><div class="cont_btns_options"><ul><li><a href="#finish" onclick="finish_action(' +
+    data.select_opt +
+    "," +
+    contador +
+    ');"><i class="fa-regular fa-trash-can"></i></a></li></ul></div></div>' +
+    '<div class="col_md_5_list"><span class="price">$' +
+    parseFloat(data.price).toFixed(2) +
+    "</span></div>" +
+    '<div class="col_md_6_list"><img src="' +
+    data.image_url +
+    '" alt="Image"></div>'
+  );
+}
+
 // Retrieve data from local storage and populate the list
 var contador = parseInt(localStorage.getItem("contador")) || 0;
 for (var i = 0; i < contador; i++) {
@@ -135,16 +213,15 @@ for (var i = 0; i < contador; i++) {
     ];
 
     var li = document.createElement("li");
-    li.className = class_li[data.select_opt] + " li_num_" + contador;
-    li.innerHTML = cont;
+    li.className = class_li[data.select_opt] + " li_num_" + i;
+    li.innerHTML = createListItemContent(data);
     document.querySelectorAll(".cont_princ_lists > ul")[0].appendChild(li);
     setTimeout(function () {
-      document.querySelector(".li_num_" + contador).style.display = "block";
+      document.querySelector(".li_num_" + i).style.display = "block";
     }, 100);
     setTimeout(function () {
-      document.querySelector(".li_num_" + contador).className =
-        "list_dsp_true " + class_li[data.select_opt] + " li_num_" + contador;
-      contador++;
+      document.querySelector(".li_num_" + i).className =
+        "list_dsp_true " + class_li[data.select_opt] + " li_num_" + i;
     }, 200);
   }
 }

@@ -28,7 +28,16 @@
           </div>
 
           <!--   End cont_todo_list_top  -->
-          <input type="text" id="searchInput" placeholder="Search...">
+          <div class="search_container">
+            <input type="text" class="search_bar" placeholder="Search by category, price, year, title, or author">
+            <select class="search_type">
+              <option value="category" selected>Category</option>
+              <option value="price">Price</option>
+              <option value="year">Year</option>
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+            </select>
+          </div>
         <div class="cont_crear_new">
           <table class="table">
             <tr>
@@ -39,7 +48,7 @@
             </tr>
             <label for="image_url">Image URL:</label>
 <input type="text" class="input_image_url" placeholder="Enter image URL">
-<button onclick="add_to_list()">Add</button>
+<!-- <button onclick="add_to_list()">Add</button> -->
             <tr>
               <td>
                 <select name="" id="action_select">
